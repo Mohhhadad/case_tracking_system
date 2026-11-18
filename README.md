@@ -32,6 +32,14 @@ A lightweight web application where orders are created electronically, every ord
 | **Status checker** | Customers check their order's current stage online, in real time (protected by a captcha). |
 | **Email notification** | The lab manager can email the dentist about updates on their order. |
 
+## Process model (BPMN)
+
+The end-to-end process — from the dentist placing an order, through every production stage in the lab, to delivery — modelled in BPMN 2.0:
+
+![Case Tracking System – BPMN process model](docs/case_tracking_process.png)
+
+The editable source is [`docs/case_tracking_process.bpmn`](docs/case_tracking_process.bpmn). Open it in [bpmn.io](https://demo.bpmn.io) or Camunda Modeler to view or edit it.
+
 ## Production stages
 
 Orders move through the lab's production line, with one page per stage:

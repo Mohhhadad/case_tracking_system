@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_CaseTracking" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Claude" exporterVersion="1.0">
+  <bpmn:collaboration id="Collab_CaseTracking">
+    <bpmn:participant id="Part_Dentist" name="Dentist / Dental Trainee" processRef="P_Dentist" />
+    <bpmn:participant id="Part_Lab" name="Digital Beauty Dental Lab" processRef="P_Lab" />
+    <bpmn:messageFlow id="Msg_D_Create_S_Start" name="Order details" sourceRef="D_Create" targetRef="S_Start" />
+    <bpmn:messageFlow id="Msg_S_Note_D_NoteRcv" name="Order note + barcode" sourceRef="S_Note" targetRef="D_NoteRcv" />
+    <bpmn:messageFlow id="Msg_D_Send_T_Rcv" name="Impression + order note" sourceRef="D_Send" targetRef="T_Rcv" />
+    <bpmn:messageFlow id="Msg_D_Check_E_Start" name="Order no." sourceRef="D_Check" targetRef="E_Start" />
+    <bpmn:messageFlow id="Msg_E_Show_D_Check" name="Current status" sourceRef="E_Show" targetRef="D_Check" />
+    <bpmn:messageFlow id="Msg_M_Email_D_EmailRcv" name="Case ready" sourceRef="M_Email" targetRef="D_EmailRcv" />
+    <bpmn:messageFlow id="Msg_T_Deliver_D_CaseRcv" name="Finished case" sourceRef="T_Deliver" targetRef="D_CaseRcv" />
+  </bpmn:collaboration>
+  <bpmn:process id="P_Dentist" isExecutable="false">
+    <bpmn:startEvent id="D_Start" name="Case needs a lab fixture">
+      <bpmn:outgoing>Flow_D_Start_D_Create</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="D_Create" name="Create order online">
+      <bpmn:incoming>Flow_D_Start_D_Create</bpmn:incoming>
+      <bpmn:outgoing>Flow_D_Create_D_NoteRcv</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="D_NoteRcv" name="Order note &amp; barcode received">
+      <bpmn:incoming>Flow_D_Create_D_NoteRcv</bpmn:incoming>
+      <bpmn:outgoing>Flow_D_NoteRcv_D_Print</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="D_NoteRcv_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:manualTask id="D_Print" name="Print order note">
+      <bpmn:incoming>Flow_D_NoteRcv_D_Print</bpmn:incoming>
+      <bpmn:outgoing>Flow_D_Print_D_Send</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:manualTask id="D_Send" name="Send impression with order note">
+      <bpmn:incoming>Flow_D_Print_D_Send</bpmn:incoming>
+      <bpmn:outgoing>Flow_D_Send_D_Check</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:userTask id="D_Check" name="Check order status online">
+      <bpmn:incoming>Flow_D_Send_D_Check</bpmn:incoming>
+      <bpmn:outgoing>Flow_D_Check_D_EmailRcv</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="D_EmailRcv" name="Email notification received">
+      <bpmn:incoming>Flow_D_Check_D_EmailRcv</bpmn:incoming>
+      <bpmn:outgoing>Flow_D_EmailRcv_D_CaseRcv</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="D_EmailRcv_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="D_CaseRcv" name="Case received">
+      <bpmn:incoming>Flow_D_EmailRcv_D_CaseRcv</bpmn:incoming>
+      <bpmn:outgoing>Flow_D_CaseRcv_D_End</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="D_CaseRcv_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="D_End" name="Case completed">
+      <bpmn:incoming>Flow_D_CaseRcv_D_End</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_D_Start_D_Create" sourceRef="D_Start" targetRef="D_Create" />
+    <bpmn:sequenceFlow id="Flow_D_Create_D_NoteRcv" sourceRef="D_Create" targetRef="D_NoteRcv" />
+    <bpmn:sequenceFlow id="Flow_D_NoteRcv_D_Print" sourceRef="D_NoteRcv" targetRef="D_Print" />
+    <bpmn:sequenceFlow id="Flow_D_Print_D_Send" sourceRef="D_Print" targetRef="D_Send" />
+    <bpmn:sequenceFlow id="Flow_D_Send_D_Check" sourceRef="D_Send" targetRef="D_Check" />
+    <bpmn:sequenceFlow id="Flow_D_Check_D_EmailRcv" sourceRef="D_Check" targetRef="D_EmailRcv" />
+    <bpmn:sequenceFlow id="Flow_D_EmailRcv_D_CaseRcv" sourceRef="D_EmailRcv" targetRef="D_CaseRcv" />
+    <bpmn:sequenceFlow id="Flow_D_CaseRcv_D_End" sourceRef="D_CaseRcv" targetRef="D_End" />
+    <bpmn:textAnnotation id="Ann_Check"><bpmn:text>Optional, as often as needed – replaces phone calls and visits</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Ann_Check" sourceRef="D_Check" targetRef="Ann_Check" />
+  </bpmn:process>
+  <bpmn:process id="P_Lab" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_Lab">
+      <bpmn:lane id="Lane_System" name="Case Tracking System">
+        <bpmn:flowNodeRef>S_Start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>S_Gen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>S_Save</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>S_Note</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ESP_Status</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Manager" name="Lab Manager">
+        <bpmn:flowNodeRef>M_Email</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Staff" name="Lab Staff">
+        <bpmn:flowNodeRef>T_Rcv</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Pour</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Design</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Mill</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Fire</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Finish</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_Deliver</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>T_End</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="S_Start" name="Order submitted">
+      <bpmn:outgoing>Flow_S_Start_S_Gen</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="S_Start_def" />
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="S_Gen" name="Generate order number &amp; barcode">
+      <bpmn:incoming>Flow_S_Start_S_Gen</bpmn:incoming>
+      <bpmn:outgoing>Flow_S_Gen_S_Save</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="S_Save" name="Save order &amp; mark as Received">
+      <bpmn:incoming>Flow_S_Gen_S_Save</bpmn:incoming>
+      <bpmn:outgoing>Flow_S_Save_S_Note</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DOA_Save"><bpmn:targetRef>DSR_LabDB</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:sendTask id="S_Note" name="Send electronic order note">
+      <bpmn:incoming>Flow_S_Save_S_Note</bpmn:incoming>
+      <bpmn:outgoing>Flow_S_Note_T_Rcv</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:intermediateCatchEvent id="T_Rcv" name="Impression &amp; order note received">
+      <bpmn:incoming>Flow_S_Note_T_Rcv</bpmn:incoming>
+      <bpmn:outgoing>Flow_T_Rcv_T_Pour</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="T_Rcv_def" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="T_Pour" name="Pour impression">
+      <bpmn:incoming>Flow_T_Rcv_T_Pour</bpmn:incoming>
+      <bpmn:outgoing>Flow_T_Pour_T_Design</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="T_Design" name="Design case">
+      <bpmn:incoming>Flow_T_Pour_T_Design</bpmn:incoming>
+      <bpmn:outgoing>Flow_T_Design_T_Mill</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="T_Mill" name="Mill case">
+      <bpmn:incoming>Flow_T_Design_T_Mill</bpmn:incoming>
+      <bpmn:outgoing>Flow_T_Mill_T_Fire</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="T_Fire" name="Fire case">
+      <bpmn:incoming>Flow_T_Mill_T_Fire</bpmn:incoming>
+      <bpmn:outgoing>Flow_T_Fire_T_Finish</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="T_Finish" name="Finish case">
+      <bpmn:incoming>Flow_T_Fire_T_Finish</bpmn:incoming>
+      <bpmn:outgoing>Flow_T_Finish_M_Email</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sendTask id="M_Email" name="Send email notification">
+      <bpmn:incoming>Flow_T_Finish_M_Email</bpmn:incoming>
+      <bpmn:outgoing>Flow_M_Email_T_Deliver</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:userTask id="T_Deliver" name="Deliver case to dentist">
+      <bpmn:incoming>Flow_M_Email_T_Deliver</bpmn:incoming>
+      <bpmn:outgoing>Flow_T_Deliver_T_End</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="T_End" name="Case delivered">
+      <bpmn:incoming>Flow_T_Deliver_T_End</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_S_Start_S_Gen" sourceRef="S_Start" targetRef="S_Gen" />
+    <bpmn:sequenceFlow id="Flow_S_Gen_S_Save" sourceRef="S_Gen" targetRef="S_Save" />
+    <bpmn:sequenceFlow id="Flow_S_Save_S_Note" sourceRef="S_Save" targetRef="S_Note" />
+    <bpmn:sequenceFlow id="Flow_S_Note_T_Rcv" sourceRef="S_Note" targetRef="T_Rcv" />
+    <bpmn:sequenceFlow id="Flow_T_Rcv_T_Pour" sourceRef="T_Rcv" targetRef="T_Pour" />
+    <bpmn:sequenceFlow id="Flow_T_Pour_T_Design" sourceRef="T_Pour" targetRef="T_Design" />
+    <bpmn:sequenceFlow id="Flow_T_Design_T_Mill" sourceRef="T_Design" targetRef="T_Mill" />
+    <bpmn:sequenceFlow id="Flow_T_Mill_T_Fire" sourceRef="T_Mill" targetRef="T_Fire" />
+    <bpmn:sequenceFlow id="Flow_T_Fire_T_Finish" sourceRef="T_Fire" targetRef="T_Finish" />
+    <bpmn:sequenceFlow id="Flow_T_Finish_M_Email" sourceRef="T_Finish" targetRef="M_Email" />
+    <bpmn:sequenceFlow id="Flow_M_Email_T_Deliver" sourceRef="M_Email" targetRef="T_Deliver" />
+    <bpmn:sequenceFlow id="Flow_T_Deliver_T_End" sourceRef="T_Deliver" targetRef="T_End" />
+    <bpmn:subProcess id="ESP_Status" name="Order status check" triggeredByEvent="true">
+      <bpmn:startEvent id="E_Start" name="Status check requested" isInterrupting="false">
+        <bpmn:outgoing>Flow_E_Start_E_Captcha</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="E_Start_def" />
+      </bpmn:startEvent>
+      <bpmn:serviceTask id="E_Captcha" name="Verify captcha">
+        <bpmn:incoming>Flow_E_Start_E_Captcha</bpmn:incoming>
+        <bpmn:outgoing>Flow_E_Captcha_E_Show</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:sendTask id="E_Show" name="Show stages &amp; timestamps">
+        <bpmn:incoming>Flow_E_Captcha_E_Show</bpmn:incoming>
+        <bpmn:outgoing>Flow_E_Show_E_End</bpmn:outgoing>
+      </bpmn:sendTask>
+      <bpmn:endEvent id="E_End" name="">
+        <bpmn:incoming>Flow_E_Show_E_End</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_E_Start_E_Captcha" sourceRef="E_Start" targetRef="E_Captcha" />
+      <bpmn:sequenceFlow id="Flow_E_Captcha_E_Show" sourceRef="E_Captcha" targetRef="E_Show" />
+      <bpmn:sequenceFlow id="Flow_E_Show_E_End" sourceRef="E_Show" targetRef="E_End" />
+    </bpmn:subProcess>
+    <bpmn:dataStoreReference id="DSR_LabDB" name="LabDB (MySQL)" dataStoreRef="DS_LabDB" />
+    <bpmn:textAnnotation id="Ann_Scan"><bpmn:text>After finishing each stage, staff scan the order barcode on that stage's page. The system records the completion time and status (mana_Line_tbl).</bpmn:text></bpmn:textAnnotation>
+    <bpmn:textAnnotation id="Ann_Email"><bpmn:text>Manager sees all finished orders and notifies the dentist by email</bpmn:text></bpmn:textAnnotation>
+    <bpmn:association id="Assoc_Ann_Scan" sourceRef="T_Pour" targetRef="Ann_Scan" />
+    <bpmn:association id="Assoc_Ann_Email" sourceRef="M_Email" targetRef="Ann_Email" />
+  </bpmn:process>
+  <bpmn:dataStore id="DS_LabDB" name="LabDB" />
+  <bpmndi:BPMNDiagram id="Diagram_1">
+    <bpmndi:BPMNPlane id="Plane_1" bpmnElement="Collab_CaseTracking">
+      <bpmndi:BPMNShape id="Part_Dentist_di" bpmnElement="Part_Dentist" isHorizontal="true"><dc:Bounds x="40" y="40" width="2300" height="180" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Part_Lab_di" bpmnElement="Part_Lab" isHorizontal="true"><dc:Bounds x="40" y="260" width="2300" height="620" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="true"><dc:Bounds x="70" y="260" width="2270" height="260" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Manager_di" bpmnElement="Lane_Manager" isHorizontal="true"><dc:Bounds x="70" y="520" width="2270" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Staff_di" bpmnElement="Lane_Staff" isHorizontal="true"><dc:Bounds x="70" y="660" width="2270" height="220" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ESP_Status_di" bpmnElement="ESP_Status" isExpanded="true"><dc:Bounds x="1260" y="392" width="560" height="116" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="D_Start_di" bpmnElement="D_Start"><dc:Bounds x="102" y="112" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="70" y="152" width="100" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="D_Create_di" bpmnElement="D_Create"><dc:Bounds x="200" y="90" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="D_NoteRcv_di" bpmnElement="D_NoteRcv"><dc:Bounds x="792" y="112" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="760" y="81" width="100" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="D_Print_di" bpmnElement="D_Print"><dc:Bounds x="870" y="90" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="D_Send_di" bpmnElement="D_Send"><dc:Bounds x="1060" y="90" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="D_Check_di" bpmnElement="D_Check"><dc:Bounds x="1420" y="90" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="D_EmailRcv_di" bpmnElement="D_EmailRcv"><dc:Bounds x="1982" y="112" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="1950" y="81" width="100" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="D_CaseRcv_di" bpmnElement="D_CaseRcv"><dc:Bounds x="2142" y="112" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="2110" y="81" width="100" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="D_End_di" bpmnElement="D_End"><dc:Bounds x="2252" y="112" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="2220" y="152" width="100" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Start_di" bpmnElement="S_Start"><dc:Bounds x="362" y="312" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="330" y="352" width="100" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Gen_di" bpmnElement="S_Gen"><dc:Bounds x="430" y="290" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Save_di" bpmnElement="S_Save"><dc:Bounds x="590" y="290" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="S_Note_di" bpmnElement="S_Note"><dc:Bounds x="750" y="290" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Rcv_di" bpmnElement="T_Rcv"><dc:Bounds x="1102" y="772" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="1070" y="812" width="100" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Pour_di" bpmnElement="T_Pour"><dc:Bounds x="1180" y="750" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Design_di" bpmnElement="T_Design"><dc:Bounds x="1330" y="750" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Mill_di" bpmnElement="T_Mill"><dc:Bounds x="1480" y="750" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Fire_di" bpmnElement="T_Fire"><dc:Bounds x="1630" y="750" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Finish_di" bpmnElement="T_Finish"><dc:Bounds x="1780" y="750" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="M_Email_di" bpmnElement="M_Email"><dc:Bounds x="1940" y="550" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_Deliver_di" bpmnElement="T_Deliver"><dc:Bounds x="2100" y="750" width="120" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="T_End_di" bpmnElement="T_End"><dc:Bounds x="2262" y="772" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="2230" y="812" width="100" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="E_Start_di" bpmnElement="E_Start"><dc:Bounds x="1282" y="432" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="1250" y="472" width="100" height="27" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="E_Captcha_di" bpmnElement="E_Captcha"><dc:Bounds x="1350" y="418" width="120" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="E_Show_di" bpmnElement="E_Show"><dc:Bounds x="1510" y="418" width="120" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="E_End_di" bpmnElement="E_End"><dc:Bounds x="1702" y="432" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DSR_LabDB_di" bpmnElement="DSR_LabDB"><dc:Bounds x="625" y="410" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="610" y="464" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ann_Scan_di" bpmnElement="Ann_Scan"><dc:Bounds x="1180" y="672" width="700" height="44" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ann_Check_di" bpmnElement="Ann_Check"><dc:Bounds x="1580" y="48" width="230" height="40" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ann_Email_di" bpmnElement="Ann_Email"><dc:Bounds x="1725" y="528" width="200" height="40" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_D_Start_D_Create_di" bpmnElement="Flow_D_Start_D_Create"><di:waypoint x="138" y="130" /><di:waypoint x="200" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_D_Create_D_NoteRcv_di" bpmnElement="Flow_D_Create_D_NoteRcv"><di:waypoint x="320" y="130" /><di:waypoint x="792" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_D_NoteRcv_D_Print_di" bpmnElement="Flow_D_NoteRcv_D_Print"><di:waypoint x="828" y="130" /><di:waypoint x="870" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_D_Print_D_Send_di" bpmnElement="Flow_D_Print_D_Send"><di:waypoint x="990" y="130" /><di:waypoint x="1060" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_D_Send_D_Check_di" bpmnElement="Flow_D_Send_D_Check"><di:waypoint x="1180" y="130" /><di:waypoint x="1420" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_D_Check_D_EmailRcv_di" bpmnElement="Flow_D_Check_D_EmailRcv"><di:waypoint x="1540" y="130" /><di:waypoint x="1982" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_D_EmailRcv_D_CaseRcv_di" bpmnElement="Flow_D_EmailRcv_D_CaseRcv"><di:waypoint x="2018" y="130" /><di:waypoint x="2142" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_D_CaseRcv_D_End_di" bpmnElement="Flow_D_CaseRcv_D_End"><di:waypoint x="2178" y="130" /><di:waypoint x="2252" y="130" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_S_Start_S_Gen_di" bpmnElement="Flow_S_Start_S_Gen"><di:waypoint x="398" y="330" /><di:waypoint x="430" y="330" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_S_Gen_S_Save_di" bpmnElement="Flow_S_Gen_S_Save"><di:waypoint x="550" y="330" /><di:waypoint x="590" y="330" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_S_Save_S_Note_di" bpmnElement="Flow_S_Save_S_Note"><di:waypoint x="710" y="330" /><di:waypoint x="750" y="330" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_S_Note_T_Rcv_di" bpmnElement="Flow_S_Note_T_Rcv"><di:waypoint x="870" y="330" /><di:waypoint x="1000" y="330" /><di:waypoint x="1000" y="790" /><di:waypoint x="1102" y="790" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_T_Rcv_T_Pour_di" bpmnElement="Flow_T_Rcv_T_Pour"><di:waypoint x="1138" y="790" /><di:waypoint x="1180" y="790" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_T_Pour_T_Design_di" bpmnElement="Flow_T_Pour_T_Design"><di:waypoint x="1300" y="790" /><di:waypoint x="1330" y="790" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_T_Design_T_Mill_di" bpmnElement="Flow_T_Design_T_Mill"><di:waypoint x="1450" y="790" /><di:waypoint x="1480" y="790" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_T_Mill_T_Fire_di" bpmnElement="Flow_T_Mill_T_Fire"><di:waypoint x="1600" y="790" /><di:waypoint x="1630" y="790" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_T_Fire_T_Finish_di" bpmnElement="Flow_T_Fire_T_Finish"><di:waypoint x="1750" y="790" /><di:waypoint x="1780" y="790" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_T_Finish_M_Email_di" bpmnElement="Flow_T_Finish_M_Email"><di:waypoint x="1840" y="750" /><di:waypoint x="1840" y="590" /><di:waypoint x="1940" y="590" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_M_Email_T_Deliver_di" bpmnElement="Flow_M_Email_T_Deliver"><di:waypoint x="2060" y="590" /><di:waypoint x="2160" y="590" /><di:waypoint x="2160" y="750" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_T_Deliver_T_End_di" bpmnElement="Flow_T_Deliver_T_End"><di:waypoint x="2220" y="790" /><di:waypoint x="2262" y="790" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_E_Start_E_Captcha_di" bpmnElement="Flow_E_Start_E_Captcha"><di:waypoint x="1318" y="450" /><di:waypoint x="1350" y="450" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_E_Captcha_E_Show_di" bpmnElement="Flow_E_Captcha_E_Show"><di:waypoint x="1470" y="450" /><di:waypoint x="1510" y="450" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_E_Show_E_End_di" bpmnElement="Flow_E_Show_E_End"><di:waypoint x="1630" y="450" /><di:waypoint x="1702" y="450" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_D_Create_S_Start_di" bpmnElement="Msg_D_Create_S_Start"><di:waypoint x="260" y="170" /><di:waypoint x="260" y="240" /><di:waypoint x="380" y="240" /><di:waypoint x="380" y="312" /><bpmndi:BPMNLabel><dc:Bounds x="266" y="198" width="90" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_S_Note_D_NoteRcv_di" bpmnElement="Msg_S_Note_D_NoteRcv"><di:waypoint x="810" y="290" /><di:waypoint x="810" y="148" /><bpmndi:BPMNLabel><dc:Bounds x="816" y="212" width="90" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_D_Send_T_Rcv_di" bpmnElement="Msg_D_Send_T_Rcv"><di:waypoint x="1120" y="170" /><di:waypoint x="1120" y="772" /><bpmndi:BPMNLabel><dc:Bounds x="1126" y="464" width="90" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_D_Check_E_Start_di" bpmnElement="Msg_D_Check_E_Start"><di:waypoint x="1460" y="170" /><di:waypoint x="1460" y="240" /><di:waypoint x="1300" y="240" /><di:waypoint x="1300" y="432" /><bpmndi:BPMNLabel><dc:Bounds x="1466" y="198" width="90" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_E_Show_D_Check_di" bpmnElement="Msg_E_Show_D_Check"><di:waypoint x="1615" y="418" /><di:waypoint x="1615" y="150" /><di:waypoint x="1540" y="150" /><bpmndi:BPMNLabel><dc:Bounds x="1621" y="277" width="90" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_M_Email_D_EmailRcv_di" bpmnElement="Msg_M_Email_D_EmailRcv"><di:waypoint x="2000" y="550" /><di:waypoint x="2000" y="148" /><bpmndi:BPMNLabel><dc:Bounds x="2006" y="342" width="90" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_T_Deliver_D_CaseRcv_di" bpmnElement="Msg_T_Deliver_D_CaseRcv"><di:waypoint x="2160" y="750" /><di:waypoint x="2160" y="148" /><bpmndi:BPMNLabel><dc:Bounds x="2166" y="442" width="90" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DOA_Save_di" bpmnElement="DOA_Save"><di:waypoint x="650" y="370" /><di:waypoint x="650" y="410" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Assoc_Ann_Scan_di" bpmnElement="Assoc_Ann_Scan"><di:waypoint x="1240" y="750" /><di:waypoint x="1240" y="716" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Assoc_Ann_Check_di" bpmnElement="Assoc_Ann_Check"><di:waypoint x="1520" y="90" /><di:waypoint x="1580" y="70" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Assoc_Ann_Email_di" bpmnElement="Assoc_Ann_Email"><di:waypoint x="1940" y="570" /><di:waypoint x="1925" y="556" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
