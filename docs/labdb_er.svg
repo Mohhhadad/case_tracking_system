@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1140" height="640" font-family="Menlo,Consolas,monospace" font-size="13">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<rect x="40" y="40" width="300" height="152" rx="6" fill="#fff" stroke="#334155" stroke-width="1.5"/>
+<path d="M40 46 a6 6 0 0 1 6 -6 h288 a6 6 0 0 1 6 6 v28 h-300 z" fill="#1e3a5f"/>
+<text x="52" y="62" fill="#fff" font-weight="bold" font-size="15">client_tbl</text>
+<text x="50" y="92" fill="#b45309" font-weight="bold" font-size="11">PK</text>
+<text x="78" y="92" fill="#0f172a">client_Id</text>
+<text x="330" y="92" fill="#64748b" text-anchor="end">int</text>
+<text x="50" y="114" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="78" y="114" fill="#0f172a">client_Name</text>
+<text x="330" y="114" fill="#64748b" text-anchor="end">varchar(45)</text>
+<text x="50" y="136" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="78" y="136" fill="#0f172a">client_Complex</text>
+<text x="330" y="136" fill="#64748b" text-anchor="end">varchar(45)</text>
+<text x="50" y="158" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="78" y="158" fill="#0f172a">dremail</text>
+<text x="330" y="158" fill="#64748b" text-anchor="end">varchar(50)</text>
+<text x="50" y="180" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="78" y="180" fill="#0f172a">drmobile</text>
+<text x="330" y="180" fill="#64748b" text-anchor="end">int(10)</text>
+<rect x="40" y="260" width="300" height="86" rx="6" fill="#fff" stroke="#334155" stroke-width="1.5"/>
+<path d="M40 266 a6 6 0 0 1 6 -6 h288 a6 6 0 0 1 6 6 v28 h-300 z" fill="#1e3a5f"/>
+<text x="52" y="282" fill="#fff" font-weight="bold" font-size="15">type_tbl</text>
+<text x="50" y="312" fill="#b45309" font-weight="bold" font-size="11">PK</text>
+<text x="78" y="312" fill="#0f172a">type_Id</text>
+<text x="330" y="312" fill="#64748b" text-anchor="end">int</text>
+<text x="50" y="334" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="78" y="334" fill="#0f172a">type_Name</text>
+<text x="330" y="334" fill="#64748b" text-anchor="end">varchar(45)</text>
+<rect x="40" y="400" width="300" height="86" rx="6" fill="#fff" stroke="#334155" stroke-width="1.5"/>
+<path d="M40 406 a6 6 0 0 1 6 -6 h288 a6 6 0 0 1 6 6 v28 h-300 z" fill="#1e3a5f"/>
+<text x="52" y="422" fill="#fff" font-weight="bold" font-size="15">color_tbl</text>
+<text x="50" y="452" fill="#b45309" font-weight="bold" font-size="11">PK</text>
+<text x="78" y="452" fill="#0f172a">color_Id</text>
+<text x="330" y="452" fill="#64748b" text-anchor="end">int(1)</text>
+<text x="50" y="474" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="78" y="474" fill="#0f172a">color_Name</text>
+<text x="330" y="474" fill="#64748b" text-anchor="end">varchar(5)</text>
+<rect x="420" y="40" width="300" height="328" rx="6" fill="#fff" stroke="#334155" stroke-width="1.5"/>
+<path d="M420 46 a6 6 0 0 1 6 -6 h288 a6 6 0 0 1 6 6 v28 h-300 z" fill="#1e3a5f"/>
+<text x="432" y="62" fill="#fff" font-weight="bold" font-size="15">order_tbl</text>
+<text x="430" y="92" fill="#b45309" font-weight="bold" font-size="11">PK</text>
+<text x="458" y="92" fill="#0f172a">order_Id</text>
+<text x="710" y="92" fill="#64748b" text-anchor="end">int</text>
+<text x="430" y="114" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="458" y="114" fill="#0f172a">order_Number</text>
+<text x="710" y="114" fill="#64748b" text-anchor="end">int</text>
+<text x="430" y="136" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="458" y="136" fill="#0f172a">upper_Right</text>
+<text x="710" y="136" fill="#64748b" text-anchor="end">varchar(8)</text>
+<text x="430" y="158" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="458" y="158" fill="#0f172a">upper_Left</text>
+<text x="710" y="158" fill="#64748b" text-anchor="end">varchar(8)</text>
+<text x="430" y="180" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="458" y="180" fill="#0f172a">lower_Right</text>
+<text x="710" y="180" fill="#64748b" text-anchor="end">varchar(8)</text>
+<text x="430" y="202" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="458" y="202" fill="#0f172a">lower_Left</text>
+<text x="710" y="202" fill="#64748b" text-anchor="end">varchar(8)</text>
+<text x="430" y="224" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="458" y="224" fill="#0f172a">order_Note</text>
+<text x="710" y="224" fill="#64748b" text-anchor="end">varchar(1000)</text>
+<text x="430" y="246" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="458" y="246" fill="#0f172a">Patient</text>
+<text x="710" y="246" fill="#64748b" text-anchor="end">varchar(30)</text>
+<text x="430" y="268" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="458" y="268" fill="#0f172a">datedue</text>
+<text x="710" y="268" fill="#64748b" text-anchor="end">date</text>
+<text x="430" y="290" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="458" y="290" fill="#0f172a">order_Date_Creation</text>
+<text x="710" y="290" fill="#64748b" text-anchor="end">timestamp</text>
+<text x="430" y="312" fill="#1d4ed8" font-weight="bold" font-size="11">FK</text>
+<text x="458" y="312" fill="#0f172a">client_client_Id</text>
+<text x="710" y="312" fill="#64748b" text-anchor="end">int</text>
+<text x="430" y="334" fill="#1d4ed8" font-weight="bold" font-size="11">FK</text>
+<text x="458" y="334" fill="#0f172a">type_type_Id</text>
+<text x="710" y="334" fill="#64748b" text-anchor="end">int</text>
+<text x="430" y="356" fill="#1d4ed8" font-weight="bold" font-size="11">FK</text>
+<text x="458" y="356" fill="#0f172a">color_color_Id</text>
+<text x="710" y="356" fill="#64748b" text-anchor="end">int</text>
+<rect x="800" y="40" width="300" height="394" rx="6" fill="#fff" stroke="#334155" stroke-width="1.5"/>
+<path d="M800 46 a6 6 0 0 1 6 -6 h288 a6 6 0 0 1 6 6 v28 h-300 z" fill="#1e3a5f"/>
+<text x="812" y="62" fill="#fff" font-weight="bold" font-size="15">mana_Line_tbl</text>
+<text x="810" y="92" fill="#b45309" font-weight="bold" font-size="11">PK</text>
+<text x="838" y="92" fill="#0f172a">mana_Line_Id</text>
+<text x="1090" y="92" fill="#64748b" text-anchor="end">int</text>
+<text x="810" y="114" fill="#1d4ed8" font-weight="bold" font-size="11">FK</text>
+<text x="838" y="114" fill="#0f172a">order_tbl_order_Id</text>
+<text x="1090" y="114" fill="#64748b" text-anchor="end">int</text>
+<text x="810" y="136" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="136" fill="#0f172a">order_Number</text>
+<text x="1090" y="136" fill="#64748b" text-anchor="end">int</text>
+<text x="810" y="158" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="158" fill="#0f172a">order_Received</text>
+<text x="1090" y="158" fill="#64748b" text-anchor="end">datetime</text>
+<text x="810" y="180" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="180" fill="#0f172a">impression_Pouring</text>
+<text x="1090" y="180" fill="#64748b" text-anchor="end">datetime</text>
+<text x="810" y="202" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="202" fill="#0f172a">mpression_Pouring_Status</text>
+<text x="1090" y="202" fill="#64748b" text-anchor="end">int</text>
+<text x="810" y="224" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="224" fill="#0f172a">order_Designing</text>
+<text x="1090" y="224" fill="#64748b" text-anchor="end">datetime</text>
+<text x="810" y="246" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="246" fill="#0f172a">order_Designing_Status</text>
+<text x="1090" y="246" fill="#64748b" text-anchor="end">int</text>
+<text x="810" y="268" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="268" fill="#0f172a">order_Milling</text>
+<text x="1090" y="268" fill="#64748b" text-anchor="end">datetime</text>
+<text x="810" y="290" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="290" fill="#0f172a">order_Milling_Status</text>
+<text x="1090" y="290" fill="#64748b" text-anchor="end">int</text>
+<text x="810" y="312" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="312" fill="#0f172a">order_Frilling</text>
+<text x="1090" y="312" fill="#64748b" text-anchor="end">datetime</text>
+<text x="810" y="334" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="334" fill="#0f172a">order_Frilling_Status</text>
+<text x="1090" y="334" fill="#64748b" text-anchor="end">int</text>
+<text x="810" y="356" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="356" fill="#0f172a">order_Finshing</text>
+<text x="1090" y="356" fill="#64748b" text-anchor="end">datetime</text>
+<text x="810" y="378" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="378" fill="#0f172a">order_Finshing_Status</text>
+<text x="1090" y="378" fill="#64748b" text-anchor="end">int</text>
+<text x="810" y="400" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="400" fill="#0f172a">order_Delivered</text>
+<text x="1090" y="400" fill="#64748b" text-anchor="end">datetime</text>
+<text x="810" y="422" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="838" y="422" fill="#0f172a">order_Delivered_Status</text>
+<text x="1090" y="422" fill="#64748b" text-anchor="end">int</text>
+<rect x="420" y="470" width="300" height="108" rx="6" fill="#fff" stroke="#334155" stroke-width="1.5"/>
+<path d="M420 476 a6 6 0 0 1 6 -6 h288 a6 6 0 0 1 6 6 v28 h-300 z" fill="#1e3a5f"/>
+<text x="432" y="492" fill="#fff" font-weight="bold" font-size="15">user_tbl</text>
+<text x="430" y="522" fill="#b45309" font-weight="bold" font-size="11">PK</text>
+<text x="458" y="522" fill="#0f172a">user_Id</text>
+<text x="710" y="522" fill="#64748b" text-anchor="end">int</text>
+<text x="430" y="544" fill="#047857" font-weight="bold" font-size="11">UQ</text>
+<text x="458" y="544" fill="#0f172a">user_Name</text>
+<text x="710" y="544" fill="#64748b" text-anchor="end">varchar(45)</text>
+<text x="430" y="566" fill="#000" font-weight="bold" font-size="11"></text>
+<text x="458" y="566" fill="#0f172a">user_Password</text>
+<text x="710" y="566" fill="#64748b" text-anchor="end">varchar(45)</text>
+<path d="M340 88 C380.0 88 380.0 308 420 308" fill="none" stroke="#475569" stroke-width="1.5"/>
+<path d="M342 81 v14 M348 81 v14" stroke="#475569" stroke-width="1.5"/>
+<path d="M408 308 L420 301 M408 308 L420 315 M408 308 H420" stroke="#475569" stroke-width="1.5" fill="none"/>
+<path d="M340 308 C380.0 308 380.0 330 420 330" fill="none" stroke="#475569" stroke-width="1.5"/>
+<path d="M342 301 v14 M348 301 v14" stroke="#475569" stroke-width="1.5"/>
+<path d="M408 330 L420 323 M408 330 L420 337 M408 330 H420" stroke="#475569" stroke-width="1.5" fill="none"/>
+<path d="M340 448 C380.0 448 380.0 352 420 352" fill="none" stroke="#475569" stroke-width="1.5"/>
+<path d="M342 441 v14 M348 441 v14" stroke="#475569" stroke-width="1.5"/>
+<path d="M408 352 L420 345 M408 352 L420 359 M408 352 H420" stroke="#475569" stroke-width="1.5" fill="none"/>
+<path d="M720 88 C760.0 88 760.0 110 800 110" fill="none" stroke="#475569" stroke-width="1.5"/>
+<path d="M722 81 v14 M728 81 v14" stroke="#475569" stroke-width="1.5"/>
+<path d="M788 110 L800 103 M788 110 L800 117 M788 110 H800" stroke="#475569" stroke-width="1.5" fill="none"/>
+<text x="420" y="610" fill="#64748b" font-size="12">user_tbl: not referenced by any table, and not used anywhere in the PHP code</text>
+</svg>

@@ -79,6 +79,8 @@ Other pages:
 
 The schema and sample data are in [`LabDB.sql`](LabDB.sql):
 
+![LabDB – ER diagram](docs/labdb_er.png)
+
 | Table | Contents |
 |---|---|
 | `order_tbl` | Orders: order number, patient, teeth per quadrant, notes, due date, client, type, color |
