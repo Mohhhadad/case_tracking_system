@@ -32,6 +32,41 @@ A lightweight web application where orders are created electronically, every ord
 | **Status checker** | Customers check their order's current stage online, in real time (protected by a captcha). |
 | **Email notification** | The lab manager can email the dentist about updates on their order. |
 
+## Screenshots
+
+> The data shown is sample data for demonstration only.
+
+**Order creator** — staff or dentists create a new order; the order number is generated automatically.
+
+![Order creator](docs/screenshots/01-order-creator.png)
+
+**Electronic order note** — printable order note with a Code 128 barcode.
+
+![Order note with barcode](docs/screenshots/02-order-report-barcode.png)
+
+**Production stage** — staff scan or type the order number to mark the stage as done; pending cases are listed below.
+
+![Pouring step](docs/screenshots/03-pouring.png)
+
+**Order status checker** — customers check the current stage of their order, protected by a captcha.
+
+![Order status checker](docs/screenshots/10-check-status-result.png)
+
+**Email sender** — the lab manager notifies the dentist about orders ready for delivery.
+
+![Email sender](docs/screenshots/11-email-sender.png)
+
+<details>
+<summary>More screenshots: all production stages</summary>
+
+![Designing step](docs/screenshots/04-designing.png)
+![Milling step](docs/screenshots/05-milling.png)
+![Firing step](docs/screenshots/06-firing.png)
+![Finishing step](docs/screenshots/07-finishing.png)
+![Delivered step](docs/screenshots/08-delivered.png)
+
+</details>
+
 ## Process model (BPMN)
 
 The end-to-end process — from the dentist placing an order, through every production stage in the lab, to delivery — modelled in BPMN 2.0:
